@@ -1,0 +1,88 @@
+﻿<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>NanoWeb</title>
+    <style type="text/css">
+
+        body {
+            background-color: #1894d2;
+            font-size: 2rem;
+            color: #333333;
+            background-image: url('./bg.jpg');
+            background-size:cover;
+        }
+        blockquote {
+            background-color: #1894d2;
+            font-size: 1.5rem;
+            padding: 5px 10px;
+            font-family: monospace;
+        }
+
+    </style>
+</head>
+
+<body>
+<div id="url"></div>
+<div>
+    <a href="javascript:void(0);" onclick="onHref('home')">home</a>
+</div>
+<div>
+    <a href="javascript:void(0);" onclick="onHref('clock.html')">clock.html</a>
+</div>
+<div>
+    <a href="javascript:void(0);" onclick="onHref('https://www.amazon.co.jp')">https://www.amazon.co.jp</a>
+</div>
+<div>
+    <a href="javascript:void(0);" onclick="onHref('https://www.yahoo.co.jp')">https://www.yahoo.co.jp</a>
+</div>
+<div>
+    <a href="./date.txt">./date.txt</a>
+</div>
+<div class="info">
+    <div>
+        <span>URL / Search</span>
+        <input id="input" type="text" name="search" size="25" maxlength="72">
+        <button onclick="onClick()" style="margin-left: 20px;">Go</button>
+    </div>
+</div>
+<blockquote>
+    /?href=https://www.yahoo.co.jpのように、queryで指定することにより、STB側のWebViewに対してURLを指定することができる。
+</blockquote>
+<script src="./location.js"></script>
+<script>
+        document.getElementById('url').innerHTML = url;
+
+        function onHref(href){
+            if(href == "home" && url.lastIndexOf(':') > 6){
+                href = 'http://127.0.0.1' + url.substr(url.lastIndexOf(':'));
+            }
+            if(location.host.indexOf('127.0.0.1') > -1){
+                location.href = href;
+            }else{
+                console.log(location.href + '?href=' + href);
+                location.href = './?href=' + href;
+            }
+        }
+
+        function onClick() {
+            var href = document.getElementById('input').value;
+            if (href.indexOf('.') > -1) {
+                if ((href.indexOf('http://') > -1 || href.indexOf('https://') > -1)) {
+
+                } else {
+                    href = 'http://' + href;
+                }
+            } else {
+                href = 'https://google.com/search?q=' + href;
+            }
+            //location.href = href;
+            onHref(href);
+        }
+
+    </script>
+</body>
+
+</html>
